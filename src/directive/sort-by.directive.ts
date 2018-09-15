@@ -16,7 +16,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-import { Directive, Host, HostListener, Input, ElementRef, Renderer, AfterViewInit } from '@angular/core';
+import { Directive, Host, HostListener, Input, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { JhiSortDirective } from './sort.directive';
 import { JhiConfigService } from '../config.service';
 
@@ -27,16 +27,14 @@ export class JhiSortByDirective implements AfterViewInit {
 
     @Input() jhiSortBy: string;
 
-    sortAscIcon = 'fa-sort-up';
-    sortDescIcon = 'fa-sort-down';
+    activeClass = 'active';
 
     jhiSort: JhiSortDirective;
 
-    constructor(@Host() jhiSort: JhiSortDirective, private el: ElementRef, private renderer: Renderer, configService: JhiConfigService) {
+    constructor(@Host() jhiSort: JhiSortDirective, private el: ElementRef, private renderer: Renderer2, configService: JhiConfigService) {
         this.jhiSort = jhiSort;
         const config = configService.getConfig();
-        this.sortAscIcon = config.sortAscIcon;
-        this.sortDescIcon = config.sortDescIcon;
+        this.activeClass = config.activeClass;
     }
 
     ngAfterViewInit(): void {
@@ -53,11 +51,12 @@ export class JhiSortByDirective implements AfterViewInit {
     }
 
     private applyClass() {
-        const childSpan = this.el.nativeElement.children[1];
-        let add = this.sortAscIcon;
-        if (!this.jhiSort.ascending) {
-            add = this.sortDescIcon;
+        const sortIcons = this.el.nativeElement.children[1];
+        this.renderer.removeClass(sortIcons.children[0], this.activeClass);
+        if (this.jhiSort.ascending) {
+            this.renderer.addClass(sortIcons.children[1], this.activeClass);
+        } else {
+            this.renderer.addClass(sortIcons.children[2], this.activeClass);
         }
-        this.renderer.setElementClass(childSpan, add, true);
     };
 }

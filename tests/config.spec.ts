@@ -22,10 +22,8 @@ describe('ModuleConfig Test', () => {
   it('should have default values as specified', () => {
     const config = new JhiModuleConfig();
 
-    expect(config.sortIcon).toBe('fa-sort');
-    expect(config.sortAscIcon).toBe('fa-sort-up');
-    expect(config.sortDescIcon).toBe('fa-sort-down');
-    expect(config.sortIconSelector).toBe('span.fa');
+    expect(config.activeClass).toBe('active');
+    expect(config.sortIconSelector).toBe('.ng-fa-icon');
     expect(config.i18nEnabled).toBe(false);
     expect(config.alertAsToast).toBe(false);
     expect(config.defaultI18nLang).toBe('en');

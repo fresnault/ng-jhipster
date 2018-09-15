@@ -22,10 +22,8 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class JhiModuleConfig {
-    sortIcon ? = 'fa-sort';
-    sortAscIcon ? = 'fa-sort-up';
-    sortDescIcon ? = 'fa-sort-down';
-    sortIconSelector ? = 'span.fa';
+    activeClass ? = 'active';
+    sortIconSelector ? = '.ng-fa-icon';
     i18nEnabled ? = false;
     defaultI18nLang ? = 'en';
     noi18nMessage ? = 'translation-not-found';

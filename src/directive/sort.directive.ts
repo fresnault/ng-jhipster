@@ -27,10 +27,8 @@ export class JhiSortDirective {
     @Input() ascending: boolean;
     @Input() callback: Function;
 
-    sortIcon = 'fa-sort';
-    sortAscIcon = 'fa-sort-up';
-    sortDescIcon = 'fa-sort-down';
-    sortIconSelector = 'span.fa';
+    sortIconSelector = '.ng-fa-icon';
+    activeClass = 'active';
 
     @Output() predicateChange: EventEmitter<any> = new EventEmitter();
     @Output() ascendingChange: EventEmitter<any> = new EventEmitter();
@@ -40,10 +38,8 @@ export class JhiSortDirective {
     constructor(el: ElementRef, renderer: Renderer, configService: JhiConfigService) {
         this.element = el.nativeElement;
         const config = configService.getConfig();
-        this.sortIcon = config.sortIcon;
-        this.sortAscIcon = config.sortAscIcon;
-        this.sortDescIcon = config.sortDescIcon;
         this.sortIconSelector = config.sortIconSelector;
+        this.activeClass = config.activeClass;
     }
 
     sort(field: any) {
@@ -63,9 +59,11 @@ export class JhiSortDirective {
         const allThIcons = this.element.querySelectorAll(this.sortIconSelector);
         // Use normal loop instead of forEach because IE does not support forEach on NodeList.
         for (let i = 0; i < allThIcons.length; i++) {
-            allThIcons[i].classList.remove(this.sortAscIcon);
-            allThIcons[i].classList.remove(this.sortDescIcon);
-            allThIcons[i].classList.add(this.sortIcon);
+            if ((i % 3) === 0) {
+                allThIcons[i].classList.add(this.activeClass);
+            } else {
+                allThIcons[i].classList.remove(this.activeClass);
+            }
         };
     };
 }
